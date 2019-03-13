@@ -29,7 +29,7 @@ export default {
   },
   beforeMount() {
     // get the API
-    Axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=hard')
+    Axios.get('https://opentdb.com/api.php?amount=10')
       .then(HTTPresponse => {
         const questionsArray = HTTPresponse.data.results;
         // iterate through the questions
@@ -62,7 +62,7 @@ export default {
           correct.push(this.trivia[i]);
         } else {
           incorrect.push({
-            question: this.trivia[i],
+            question: this.trivia[i].question,
             userAnswer: this.answers[i],
             correctAnswer: this.trivia[i].correct_answer
           });

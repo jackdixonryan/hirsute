@@ -51,6 +51,7 @@ export default {
         teams: [],
         currentRound: 0,
         questions: null,
+        passcode: null,
       },
       // in the api, for some god-forsaken reason, general knowledge is category nine and then its incremental from there. So books is 10, film 11, etc. basically to get the proper index with the exception of all, you must add 8 to the index of the category;
       gameCategoryOptions: [
@@ -79,6 +80,9 @@ export default {
         'Gadgets'
       ]
     }
+  },
+  beforeMount() {
+    this.generateStringPassphrase();
   },
   methods: {
     // some array methods for selecting various categories since v-model doesn't work with buttons. 
@@ -156,8 +160,21 @@ export default {
 
       // then there's the redirect problem...
       this.$router.push('/game');
+    },
+
+    // generates a random 6-digit string passcode for the game that users on mobile devices can use to join the game. 
+    generateStringPassphrase() {
+      const possibleDigits = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+
+      const passcode = [];
+      for (let i = 0; i < 6; i++) {
+        const randomSelection = possibleDigits[Math.floor(Math.random() * possibleDigits.length)];
+        passcode.push(randomSelection);
+      }
+
+      this.gamePreferences.passcode = passcode.join('');
     }
-  }
+  },
 }
 </script>
 
